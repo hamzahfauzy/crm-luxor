@@ -31,12 +31,13 @@ spl_autoload_register(function($classname){
     die('404 File '.$filename.' Not Found');
 });
 
+require "system/libraries/Functions.php";
+$app = require "config/applications.php";
+
 $URI = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 $URI = trim($URI,'/');
 $URI = empty($URI) ? '/' : $URI;
-
-require "system/libraries/Functions.php";
-$app = require "config/applications.php";
+$URI = $app['root_dir'] && $URI == $app['root_dir'] ? '/' : $URI;
 
 if($URI == '/')
 {

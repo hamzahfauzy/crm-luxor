@@ -21,6 +21,8 @@ function base_url()
     $base_url = $application_protocol.$_SERVER['SERVER_NAME'];
     if($_SERVER['SERVER_PORT'])
         $base_url .= ':'.$_SERVER['SERVER_PORT'];
+    if($app['root_dir'])
+        $base_url .= '/'.$app['root_dir'];
         
     return $base_url;
 }
