@@ -9,6 +9,9 @@
         <li>
             <a href="<?= base_url()?>" class="<?= $this->visited == 'beranda' ? 'active' : '' ?>"><i class="fa fa-home"></i> Beranda</a>
         </li>
+        <li>
+            <a href="<?= base_url()?>/home/profil" class="<?= $this->visited == 'profil' ? 'active' : '' ?>"><i class="fa fa-user"></i> Profil</a>
+        </li>
     <?php if(!session()->get('id') || (session()->get('id') && session()->user()->level == 'customer')): ?>
         <li>
             <a href="<?= base_url()?>/home/produk" class="<?= $this->visited == 'semua-produk' ? 'active' : '' ?>"><i class="fa fa-cube"></i> Semua Produk</a>
@@ -21,9 +24,6 @@
     if(session()->get('id')): 
         if(session()->user()->level == 'customer'):
     ?>
-        <li>
-            <a href="<?= base_url()?>/home/profil" class="<?= $this->visited == 'profil' ? 'active' : '' ?>"><i class="fa fa-user"></i> Profil</a>
-        </li>
         <li>
             <a href="<?= base_url()?>/transaksi" class="<?= $this->visited == 'transaksi' ? 'active' : '' ?>"><i class="fa fa-shopping-bag"></i> Transaksi</a>
         </li>

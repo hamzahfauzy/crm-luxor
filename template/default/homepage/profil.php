@@ -1,35 +1,24 @@
 <?php 
-$this->title .= ' | Profil';
+$this->title .= ' | Profil Perusahaan';
 $this->visited = "profil";
-$customer = session()->user()->kustomer();
 ?>
 
 <div class="container">
 	<div class="row">
-		<div class="col-sm-12 col-md-6 mx-auto">
-			<h2>Profil</h2>
-			<table class="table table-bordered">
-				<tr>
-					<td>Nama</td>
-					<td>:</td>
-					<td><?= $customer->nama ?></td>
-				</tr>
-				<tr>
-					<td>Alamat</td>
-					<td>:</td>
-					<td><?= $customer->alamat ?></td>
-				</tr>
-				<tr>
-					<td>Jenis Kelamin</td>
-					<td>:</td>
-					<td><?= $customer->jenis_kelamin ?></td>
-				</tr>
-				<tr>
-					<td>No HP</td>
-					<td>:</td>
-					<td><?= $customer->no_hp ?></td>
-				</tr>
-			</table>
+		<div class="col-sm-12 col-md-8 mx-auto">
+			<h2 align="center">Profil Stokis Luxor</h2>
+			<p>
+				<br>
+				Stokis Luxor beralamat di jalan Dr.Wahidin No.37 Kisaran. 
+				<br><br>
+				Luxor Network  merupakan bisnis Multi Level Marketing yang bergerak pada penjualan produk herbal. Luxor network berdiri di indonesia dengan nama PT.Luxor Indonesia.
+
+				<ul>
+					<li><b>Visi: </b><br> Untuk menjadi pemimpin pasar bertaraf internasional yang inovatif dengan meningkatkan taraf hidup masyarakat. <br><br></li>
+					<li><b>Misi: </b><br> Menyediakan produk dan pelayanan yang lebih unggul melalui pembaharuan yang terus menerus dengan menyalurkan segala keahlian dan sumber daya demi mewujudkan masa depan yang lebih cerah sambil berusaha mencapai potensi yang sepenuhnya terpendam dalam diri kita.</li>
+				</ul>
+			</p>
+			
 		</div>
 	</div>
 </div>

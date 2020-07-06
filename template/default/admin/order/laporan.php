@@ -8,7 +8,7 @@
                             <center>
                             <h1 style="margin:0;padding:0">PT. LUXOR INDONESIA</h1>
                             <h2 style="margin:0;padding:0">STOKIS KISARAN</h2>
-                            <p>Jl. Kartini, No. 120 Kisaran Timur, Kabupaten Asahan, email: luxorkisaran@gmail.com</p>
+                            <p>Dr.Wahidin No.37 Kisaran, Kabupaten Asahan, email: luxorkisaran@gmail.com</p>
                             </center>
                         </td>
                     </tr>

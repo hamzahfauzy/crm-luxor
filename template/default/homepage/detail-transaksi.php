@@ -71,7 +71,7 @@ if(!empty($transaksi)):
             	<?php if($transaksi->status == 1 && $transaksi->bukti == ""){ ?>
             	<span class="alert alert-warning">Bukti Transfer Belum dikirim</span>
             	<br><br>
-                <?php if(($member && session()->get('id') == $member) || !$meber): ?>
+                <?php if(($member && session()->get('id') == $member) || !$member): ?>
             	<form method="post" action="<?=base_url()?>/home/simpanBukti" enctype="multipart/form-data">
             		<input type="hidden" name="id_transaksi" value="<?= $transaksi->id ?>">
             		<div class="form-group">
