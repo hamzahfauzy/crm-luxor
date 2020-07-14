@@ -13,6 +13,6 @@ class Konsultasi extends Model
 
     function user()
     {
-    	return $this->hasOne(User::class,['id'=>'id_user']);
+    	return $this->hasOne(Kustomer::class,['id'=>'id_user']);
     }
 }

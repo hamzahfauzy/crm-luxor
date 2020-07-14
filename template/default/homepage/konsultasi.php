@@ -122,6 +122,7 @@ $this->visited = "beranda";
 }
 
 </style>
+<?php if(session()->get('id') && session()->user()->level == 'customer'): ?>
 <div class="produk-container row">
 	<div class="col-sm-12 col-md-6 mx-auto">
 		<h2>Konsultasi</h2>
@@ -263,3 +264,108 @@ async function sendChat()
 	document.querySelector("input[name=konten]").value = ""
 }
 </script>
+<?php else: ?>
+<div class="produk-container row">
+	<div class="col-sm-12 col-md-6 mx-auto">
+		<h2>Konsultasi</h2>
+
+		<div class="customer-form">
+			<form method="post" onsubmit="return false;">
+				<div class="form-group">
+					<label>Nama Kustomer</label>
+					<input type="text" name="customer_name" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>No. HP</label>
+					<input type="tel" name="customer_phone" class="form-control">
+				</div>
+				<button class="btn btn-success" onclick="startChat()">Mulai Konsultasi</button>
+			</form>
+		</div>
+
+		<div class="chat-container" style="display: none;">
+			<div class="chat-bg" style="height: 500px;overflow: auto;">
+				<div class="container chat" style="width: 100%;height: 100%;"></div>
+			</div>
+			<div class="text-container" style="position: relative;">
+				<form method="post" onsubmit="return false;">
+				<input type="text" name="konten" class="form-control" placeholder="Konsultasi masalah anda disini...">
+				<div style="position: absolute;right:0;top:0">
+					<button class="btn btn-success" onclick="sendChat()"><i class="fa fa-send"></i></button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+var customerID = 0
+
+async function startChat()
+{
+	var formData = new FormData;
+	formData.append('name',document.querySelector('input[name=customer_name]').value)
+	formData.append('phone',document.querySelector('input[name=customer_phone]').value)
+	var post = await fetch('<?=base_url()?>/home/startChat',{
+		method:'POST',
+		header:{
+			'content-type':'application/x-www-form-urlencoded',
+		},
+		body:formData
+	})
+
+	var response = await post.json()
+	document.querySelector('.customer-form').style.display = "none"
+	document.querySelector('.chat-container').style.display = "block"
+	customerID   = response.id
+	setInterval(loadChat,2500)
+}
+
+async function loadChat()
+{
+	var get  = await fetch('<?=base_url()?>/home/loadChat?id='+customerID)
+	var data = await get.json();
+	var contens = data.items
+	var chat = document.querySelector('.chat')
+	chat.innerHTML = ""
+	contens.forEach(val => {
+		var tipe = val.tipe == 1 ? 'alt' : ''
+		var from = val.tipe == 1 ? 'Anda' : 'Admin'
+		chat.innerHTML += `
+				<div class="msg">
+				  <div class="bubble ${tipe}">
+				    <div class="txt">
+				      <span class="timestamp">${val.tanggal}</span>      
+				      <span class="name">${from}</span>
+				      <span class="message">
+				        ${val.konten}
+				      </span> 
+				      
+				    </div>
+				    <div class="bubble-arrow ${tipe}"></div>
+				  </div>
+				</div>  
+		`
+	})
+	var objDiv = document.querySelector(".chat-bg");
+	objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+
+async function sendChat()
+{
+	var konten = document.querySelector("input[name=konten]").value
+	var formData = new FormData;
+	formData.append('konten',konten)
+	var send   = await fetch('<?=base_url()?>/home/sendChat?id='+customerID,{
+		method:'POST',
+		header:{
+			'content-type':'application/x-www-form-urlencoded'
+		},
+		body:formData
+	})
+	document.querySelector("input[name=konten]").value = ""
+}
+</script>
+<?php endif ?>

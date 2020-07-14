@@ -47,7 +47,7 @@ $this->js = [
                         <?php endif; $no = 1; ?>
                         <?php 
                         foreach($konsultasi as $value): 
-                            $customer = $value->user()->kustomer();
+                            $customer = $value->user();
                         ?>
                         <tr>
                             <td><?= $no++ ?></td>

@@ -27,9 +27,7 @@
         <li>
             <a href="<?= base_url()?>/transaksi" class="<?= $this->visited == 'transaksi' ? 'active' : '' ?>"><i class="fa fa-shopping-bag"></i> Transaksi</a>
         </li>
-        <li>
-            <a href="<?= base_url()?>/home/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi</a>
-        </li>
+        
     <?php else: ?>
         <li>
             <a href="<?= base_url()?>/admin/member" class="<?= $this->visited == 'member' ? 'active' : '' ?>"><i class="fa fa-users"></i> Member</a>
@@ -61,6 +59,11 @@
     <?php if((session()->get('id') && session()->user()->level == 'customer') || !session()->get('id')): ?>
         <li>
             <a href="<?= base_url()?>/home/cek" class="<?= $this->visited == 'cek' ? 'active' : '' ?>"><i class="fa fa-check"></i> Cek Transaksi</a>
+        </li>
+    <?php endif ?>
+    <?php if(!session()->get('id') || (session()->get('id') && session()->user()->level == "customer")): ?>
+        <li>
+            <a href="<?= base_url()?>/home/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi</a>
         </li>
     <?php endif ?>
     </ul>

@@ -257,9 +257,22 @@ class HomeController
 		return view('homepage.konsultasi');
 	}
 
+	function startChat()
+	{
+		$request     = request()->post();
+		$kustomer    = new Kustomer;
+		$kustomer_id = $kustomer->save([
+			'nama' => $request->name,
+			'no_hp' => $request->phone,
+		]);
+
+		return ['id'=>$kustomer_id];
+	}
+
 	function loadChat()
 	{
-		$konsultasi = Konsultasi::where('id_user',session()->get('id'))->first();
+		$id 	 = isset($_GET['id']) ? $_GET['id'] : session()->user()->kustomer()->id;
+		$konsultasi = Konsultasi::where('id_user',$id)->first();
 		if(empty($konsultasi)) return [];
 		
 		$konsultasi->items();
@@ -280,12 +293,13 @@ class HomeController
 	function sendChat()
 	{
 		$request = request()->post();
-		$konsultasi = Konsultasi::where('id_user',session()->get('id'))->first();
+		$id 	 = isset($_GET['id']) ? $_GET['id'] : session()->user()->kustomer()->id;
+		$konsultasi = Konsultasi::where('id_user',$id)->first();
 		if(empty($konsultasi))
 		{
 			$konsultasi    = new Konsultasi;
 			$id_konsultasi = $konsultasi->save([
-				'id_user'  => session()->get('id'),
+				'id_user'  => $id,
 				'tanggal'  => date('Y-m-d'),
 				'belum_dibaca' => 1,
 				'tipe'         => 1,
