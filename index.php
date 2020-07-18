@@ -35,9 +35,10 @@ require "system/libraries/Functions.php";
 $app = require "config/applications.php";
 
 $URI = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+$URI = $app['root_dir'] ? ltrim($URI,$app['root_dir'].'/') : $URI;
 $URI = trim($URI,'/');
 $URI = empty($URI) ? '/' : $URI;
-$URI = $app['root_dir'] && $URI == $app['root_dir'] ? '/' : $URI;
+// $URI = $app['root_dir'] && $URI == $app['root_dir'] ? '/' : $URI;
 
 if($URI == '/')
 {

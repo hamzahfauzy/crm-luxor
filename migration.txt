@@ -1,0 +1,1 @@
+ALTER TABLE `transaksi` ADD `ongkir` INT NOT NULL AFTER `id_kurir`, ADD `id_provinsi` INT NOT NULL AFTER `ongkir`, ADD `id_kabupaten` INT NOT NULL AFTER `id_provinsi`, ADD `kurir` VARCHAR(10) NOT NULL AFTER `id_kabupaten`;
