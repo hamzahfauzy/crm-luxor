@@ -130,20 +130,36 @@ $this->visited = "keranjang";
         <div class="col-sm-12 col-md-6">
         	<h2>Kurir</h2>
         	<div class="form-group">
-        		<label>Kecamatan</label>
-        		<select class="form-control" name="id_shipping" id="id_shipping" required="">
+        		<label>Provinsi</label>
+        		<select class="form-control" name="province" id="id_provinsi" required="">
         			<option value="">- Pilih -</option>
-        			<?php foreach($shipping as $value): ?>
-        			<option value="<?= $value->id ?>"><?=$value->nama?></option>
+        			<?php foreach($provinces as $province): ?>
+        			<option value="<?= $province->province_id ?>"><?=$province->province?></option>
         			<?php endforeach ?>
         		</select>
         	</div>
-        	<div class="form-group">
-        		<label>Kurir</label>
-        		<select class="form-control" name="id_shipping_item" id="id_shipping_item" required="">
+        	<div class="form-group" id="p-city" style="display:none">
+        		<label>Kabupaten</label>
+        		<select class="form-control" name="city" id="id_kabupaten" required="">
         			<option value="">- Pilih -</option>
         		</select>
         	</div>
+        	<div class="form-group" id="p-courier" style="display:none">
+        		<label>Kurir</label>
+        		<select class="form-control" name="courier" id="courier" required="">
+        			<option value="">- Pilih -</option>
+        			<option value="jne">JNE</option>
+        			<option value="pos">POS</option>
+        			<option value="tiki">TIKI</option>
+        		</select>
+        	</div>
+        	<div class="form-group" id="p-service" style="display:none">
+        		<label>Servis</label>
+        		<select class="form-control" name="service" id="service" required="">
+        			<option value="">- Pilih -</option>
+        		</select>
+        	</div>
+			<input type="hidden" name="ongkir" id="ongkir" >
         	<div class="form-group">
         		<label>Harga</label>
         		<input type="text" id="harga" disabled="" class="form-control">
@@ -165,26 +181,52 @@ $this->visited = "keranjang";
 <?php endif ?>
 
 <script type="text/javascript">
-var shipping = document.querySelector("#id_shipping")
-var shipping_item = document.querySelector("#id_shipping_item")
-var shipping_data = []
-shipping.onchange = async () => {
-	var response = await fetch('<?=base_url()?>/home/shipping/'+shipping.value)
+var provinsi = document.querySelector("#id_provinsi")
+var kabupaten = document.querySelector("#id_kabupaten")
+var courier = document.querySelector("#courier")
+var service = document.querySelector("#service")
+
+var pCity = document.querySelector("#p-city")
+var pCourier = document.querySelector("#p-courier")
+var pService = document.querySelector("#p-service")
+
+provinsi.onchange = async () => {
+	var response = await fetch('<?=base_url()?>/home/get_cities/'+provinsi.value)
 	var data     = await response.json()
-	shipping_item.innerHTML = "<option value=''>- Pilih -</option>"
-	shipping_data = data
+
+	pCity.style.display = "block"
+
+	kabupaten.innerHTML = "<option value=''>- Pilih -</option>"
 	data.forEach(val => {
-		shipping_item.innerHTML = shipping_item.innerHTML + `<option value='${val.id}'>${val.nama}</option>`
+		kabupaten.innerHTML += `<option value='${val.city_id}'>${val.city_name}</option>`
 	})
 }
 
-shipping_item.onchange = () => {
-	var id    = shipping_item.value
-	var harga = shipping_data.filter(val => val.id === id)[0]
-	harga     = harga.harga_kirim
+kabupaten.onchange = () => {
+	pCourier.style.display = "block"	
+}
+
+courier.onchange = async () => {
+	var response = await fetch('<?=base_url()?>/home/get_costs/'+kabupaten.value+"?courier="+courier.value)
+	var data     = await response.json()
+
+	pService.style.display = "block";
+
+	service.innerHTML = "<option value=''>- Pilih -</option>"
+	data.forEach(val => {
+		var price = new Intl.NumberFormat().format(val.cost[0].value)
+		var etd = val.cost[0].etd
+		service.innerHTML += `<option value='${val.cost[0].value}'>${val.service} ( Rp. ${price} - ${etd} Hari )</option>`
+	})
+}
+
+service.onchange = () => {
+	var harga = new Intl.NumberFormat().format(service.value)
 	var sub_total = document.querySelector("#sub_total").innerHTML
 	var total_transaksi = parseInt(harga) + parseInt(sub_total)
-	document.querySelector("#harga").value = harga
-	document.querySelector("#total_transaksi").value = total_transaksi
+	total_transaksi = new Intl.NumberFormat().format(total_transaksi)
+	document.querySelector("#ongkir").value = service.value
+	document.querySelector("#harga").value = "Rp. "+harga
+	document.querySelector("#total_transaksi").value = "Rp. "+total_transaksi
 }
 </script>

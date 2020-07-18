@@ -21,6 +21,38 @@ class Transaksi extends Model
 		return $this->hasOne(ShippingItem::class,['id'=>'id_kurir']);
 	}
 
+	function shipping($dest,$courier){
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 30,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_POSTFIELDS => "origin=15&destination=$dest&weight=1700&courier=$courier",
+		CURLOPT_HTTPHEADER => array(
+			"content-type: application/x-www-form-urlencoded",
+			"key: e07825fee157e94745b2c7d0e31c5953"
+		),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		$results = json_decode($response);
+
+		$results->name = $results->rajaongkir->results[0]->name;
+		$results->province = $results->rajaongkir->destination_details->province;
+		$results->city = $results->rajaongkir->destination_details->city_name;
+
+		return $results;
+	}
+
 	function total()
 	{
 		$total = 0;

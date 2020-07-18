@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors",1);
 define("Z_MVC",1);
 set_time_limit(0);
 session_start();

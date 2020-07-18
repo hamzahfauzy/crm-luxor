@@ -14,6 +14,9 @@ use App\Helpers\Uploader;
 
 class HomeController
 {
+
+	public $apikey = "e07825fee157e94745b2c7d0e31c5953";
+
 	function index()
 	{
 		$produk = Produk::limit(0,8)->orderby('id','desc')->get();
@@ -30,11 +33,95 @@ class HomeController
 		]);
 	}
 
+	function get_provinces(){
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_HTTPHEADER => array(
+				"key: $this->apikey"
+			),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+		curl_close($curl);
+
+		$results = json_decode($response);
+		return $results->rajaongkir->results;
+	}
+
+	function get_cities($prov_id){
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://api.rajaongkir.com/starter/city?province=$prov_id",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 30,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "GET",
+		CURLOPT_HTTPHEADER => array(
+			"key: $this->apikey"
+		),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		$results = json_decode($response);
+
+		echo json_encode($results->rajaongkir->results);
+	}
+
+	function get_costs($dest){
+		$curl = curl_init();
+
+		$courier = $_GET['courier'];
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 30,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_POSTFIELDS => "origin=15&destination=$dest&weight=1800&courier=$courier",
+		CURLOPT_HTTPHEADER => array(
+			"content-type: application/x-www-form-urlencoded",
+			"key: $this->apikey"
+		),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		$results = json_decode($response);
+
+		echo json_encode($results->rajaongkir->results[0]->costs);
+	}
+
 	function keranjang()
 	{
 		$shipping = Shipping::orderby('nama','asc')->get();
+
+		$results = $this->get_provinces();		
+		
 		return view("homepage.keranjang",[
-			'shipping' => $shipping
+			'shipping' => $shipping,
+			'provinces' => $results
 		]);
 	}
 
@@ -94,6 +181,7 @@ class HomeController
 			// customer only
 			$kustomer = new Kustomer;
 			$id_kustomer = $kustomer->save([
+				'id_pengguna'	=> 0,
 				'nama' 			=> $request->nama,
 				'alamat' 		=> $request->alamat,
 				'jenis_kelamin' => $request->jenis_kelamin,
@@ -130,7 +218,10 @@ class HomeController
 			'id_kustomer' => $id_kustomer,
 			'status'	  => 1,
 			'tanggal'	  => date('Y-m-d'),
-			'id_kurir' => $request->id_shipping_item
+			'ongkir' => $request->ongkir,
+			'id_provinsi' => $request->province,
+			'id_kabupaten' => $request->city,
+			'kurir' => $request->courier,
 		]);
 
 		$kode = substr(md5($id_transaksi), 0, 8);
