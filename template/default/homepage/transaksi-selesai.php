@@ -24,7 +24,8 @@ if(!empty($transaksi)):
                     <?php 
                     $no = 1;
                     $total = 0;
-                    $total_poin = 0;
+					$total_poin = 0;
+					$shipping = $transaksi->shipping($transaksi->id_kabupaten,$transaksi->kurir);
                     foreach($transaksi->items as $key => $value):
                     	$value->produk(); 
                     	$harga = $member ? $value->produk->harga_member : $value->produk->harga_normal;
@@ -77,7 +78,7 @@ if(!empty($transaksi)):
                         	<b>Shipping</b>
                         </td>
                         <td>
-                        	<?= $transaksi->kustomer->alamat ?>, <?= $transaksi->kurir()->shipping()->nama ?>, <?= $transaksi->kurir->nama ?>
+                        	<?= $transaksi->kustomer->alamat ?>, <?= $shipping->nama ?>, <?= $transaksi->kurir->nama ?>
                         </td>
                         <td width="100px"></td>
                         <td>Rp. <?= number_format($transaksi->kurir->harga_kirim) ?></td>

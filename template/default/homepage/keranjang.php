@@ -221,11 +221,11 @@ courier.onchange = async () => {
 }
 
 service.onchange = () => {
-	var harga = new Intl.NumberFormat().format(service.value)
+	var harga = service.value
 	var sub_total = document.querySelector("#sub_total").innerHTML
 	var total_transaksi = parseInt(harga) + parseInt(sub_total)
 	total_transaksi = new Intl.NumberFormat().format(total_transaksi)
-	document.querySelector("#ongkir").value = service.value
+	document.querySelector("#ongkir").value = new Intl.NumberFormat().format(harga)
 	document.querySelector("#harga").value = "Rp. "+harga
 	document.querySelector("#total_transaksi").value = "Rp. "+total_transaksi
 }
