@@ -3,6 +3,8 @@ namespace App\Controllers\Admin;
 if (!defined('Z_MVC')) die ("Not Allowed");
 
 use App\Models\Transaksi;
+use App\Models\TransaksiItem;
+use App\Models\Produk;
 
 class OrderController
 {
@@ -46,6 +48,14 @@ class OrderController
 		$transaksi = Transaksi::find($id);
 		$transaksi->save([
 			'status' => 2
+		]);
+
+		$t_item = TransaksiItem::where('id_transaksi',$id)->first();
+
+		$produk = Produk::find($t_item->id_produk);
+
+		$produk->save([
+			'jumlah'=>$produk->jumlah - $t_item->jumlah
 		]);
 
 		session()->set('msg','Transaksi berhasil di terima');

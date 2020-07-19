@@ -13,9 +13,15 @@ $this->visited = "semua-produk";
 				</div>
 				<div class="col-sm-12 col-md-6">
 					<h3><?=$produk->nama?></h3>
-					<br>
 					<h4 class="text-success">Rp. <?=number_format($produk->harga_normal)?></h4>
-					<p>Rating : <?=$rating ?></p>
+					<div>
+						<?php 
+							$stars = 5;
+							for($i=1;$i <= $stars;$i++) : 
+						?>
+							<span class="fa fa-star star <?= $rating['rating'] >= $i ? 'checked' :'' ?>"></span>
+						<?php endfor ?>
+					</div>
 					<br>
 					<form action="<?=base_url()?>/home/beli/<?=$produk->id?>">
 						<div class="form-group">

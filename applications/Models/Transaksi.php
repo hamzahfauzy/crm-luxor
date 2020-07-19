@@ -66,7 +66,7 @@ class Transaksi extends Model
         	$total += ($value->jumlah*$harga);
 		}
 
-		$harga_kirim = $this->kurir()->harga_kirim;
+		$harga_kirim = $this->ongkir;
 		return $total+$harga_kirim;
 	}
 }

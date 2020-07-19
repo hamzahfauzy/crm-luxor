@@ -324,20 +324,22 @@ class HomeController
 		$produk = Produk::find($id);
 		$transaksi_produk = TransaksiItem::where('id_produk',$id)->get();
 		$ulasan = [];
-		$rating = 0;
+		$rating = [];
 		if(!empty($transaksi_produk))
 		{
-			$divide_by = 0;
+			$rating['length'] = 0;
 			foreach($transaksi_produk as $p)
 			{
 				if($p->rating == "") continue;
 				$ulasan[] = $p;
-				$divide_by++;
-				$rating += $p->rating;
+				$rating['rating'] += $p->rating;
+				$rating['length'] += 1;
 			}
 
-			if($divide_by > 0)
-				$rating = $rating / $divide_by;
+			if($rating['length'] > 0)
+				$rating['rating'] /= $rating['length'];
+
+			$rating['rating'] = round($rating['rating']);
 		}
 
 		return view('homepage.detail',[

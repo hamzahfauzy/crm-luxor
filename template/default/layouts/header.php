@@ -39,9 +39,6 @@
             <a href="<?= base_url()?>/admin/produk" class="<?= $this->visited == 'produk' ? 'active' : '' ?>"><i class="fa fa-cubes"></i> Produk</a>
         </li>
         <li>
-            <a href="<?= base_url()?>/admin/shipping" class="<?= $this->visited == 'shipping' ? 'active' : '' ?>"><i class="fa fa-truck"></i> Shipping</a>
-        </li>
-        <li>
             <a href="<?= base_url()?>/admin/order" class="<?= $this->visited == 'order' ? 'active' : '' ?>"><i class="fa fa-shopping-bag"></i> Order</a>
         </li>
         <li>

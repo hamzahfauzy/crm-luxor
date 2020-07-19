@@ -218,6 +218,14 @@ footer {
 	object-fit: cover;
 }
 
+.star{
+	font-size: 20px;
+}
+
+.checked{
+	color:orange;
+}
+
 @media only screen and (max-width: 786px) {
 	.left-sidebar-section {
 		width: 0px;
