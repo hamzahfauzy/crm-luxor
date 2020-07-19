@@ -32,7 +32,7 @@ class HomeController
 			'produk' => $produk
 		]);
 	}
-
+	
 	function get_provinces(){
 		$curl = curl_init();
 
@@ -43,6 +43,8 @@ class HomeController
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 30,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_SSL_VERIFYHOST=> 0,
+			CURLOPT_SSL_VERIFYPEER=>0,
 			CURLOPT_CUSTOMREQUEST => "GET",
 			CURLOPT_HTTPHEADER => array(
 				"key: $this->apikey"
@@ -52,6 +54,9 @@ class HomeController
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
 		curl_close($curl);
+		
+		if($err)
+			print_r($err);
 
 		$results = json_decode($response);
 		return $results->rajaongkir->results;
@@ -66,6 +71,8 @@ class HomeController
 		CURLOPT_ENCODING => "",
 		CURLOPT_MAXREDIRS => 10,
 		CURLOPT_TIMEOUT => 30,
+		CURLOPT_SSL_VERIFYHOST=> 0,
+		CURLOPT_SSL_VERIFYPEER=>0,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => "GET",
 		CURLOPT_HTTPHEADER => array(
@@ -96,6 +103,8 @@ class HomeController
 		CURLOPT_TIMEOUT => 30,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_SSL_VERIFYHOST=> 0,
+		CURLOPT_SSL_VERIFYPEER=>0,
 		CURLOPT_POSTFIELDS => "origin=15&destination=$dest&weight=1800&courier=$courier",
 		CURLOPT_HTTPHEADER => array(
 			"content-type: application/x-www-form-urlencoded",

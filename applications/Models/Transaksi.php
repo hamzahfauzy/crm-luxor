@@ -31,6 +31,8 @@ class Transaksi extends Model
 		CURLOPT_MAXREDIRS => 10,
 		CURLOPT_TIMEOUT => 30,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_SSL_VERIFYHOST=> 0,
+			CURLOPT_SSL_VERIFYPEER=>0,
 		CURLOPT_CUSTOMREQUEST => "POST",
 		CURLOPT_POSTFIELDS => "origin=15&destination=$dest&weight=1700&courier=$courier",
 		CURLOPT_HTTPHEADER => array(
