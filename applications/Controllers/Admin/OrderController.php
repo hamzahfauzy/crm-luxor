@@ -10,7 +10,7 @@ class OrderController
 {
 	function __construct()
 	{
-		if(!session()->get('id') || session()->user()->level != "admin")
+		if(!session()->get('id') || session()->user()->level == "customer")
 		{
 			redirect(base_url());
 			die();

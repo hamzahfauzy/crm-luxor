@@ -10,4 +10,9 @@ class Produk extends Model
     {
     	return $this->hasOne(Kategori::class, ['id'=>'id_kategori']);
     }
+
+    function transactions()
+    {
+    	return $this->hasMany(TransaksiItem::class,['id_produk'=>'id']);
+    }
 }

@@ -89,11 +89,13 @@ $this->js = [
                             <td>Rp. <?= number_format($value->total()) ?></td>
                             <td>
                                 <a href="<?= base_url() ?>/home/detailTransaksi/<?=$value->kode?>"><i class="fa fa-eye"></i> Detail</a>
+                                <?php if(session()->user()->level == "admin"): ?>
                                 <?php if($value->status == 1): ?>
                                 |
                                 <a href="<?= base_url() ?>/admin/order/terima/<?=$value->id?>"><i class="fa fa-check"></i> Terima</a>
                                 |
                                 <a href="<?= base_url() ?>/admin/order/tolak/<?=$value->id?>"><i class="fa fa-times"></i> Tolak</a>
+                                <?php endif ?>
                                 <?php endif ?>
                             </td>
                         </tr>

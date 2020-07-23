@@ -29,6 +29,7 @@
         </li>
         
     <?php else: ?>
+        <?php if(session()->user()->level == 'admin'): ?>
         <li>
             <a href="<?= base_url()?>/admin/member" class="<?= $this->visited == 'member' ? 'active' : '' ?>"><i class="fa fa-users"></i> Member</a>
         </li>
@@ -44,6 +45,11 @@
         <li>
             <a href="<?= base_url()?>/admin/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi</a>
         </li>
+        <?php else: ?>
+        <li>
+            <a href="<?= base_url()?>/admin/order" class="<?= $this->visited == 'order' ? 'active' : '' ?>"><i class="fa fa-shopping-bag"></i> Order</a>
+        </li>
+        <?php endif; ?>
     <?php endif; ?>
         <li>
             <a href="<?= base_url()?>/auth/logout"><i class="fa fa-sign-out"></i> Log Out</a>
