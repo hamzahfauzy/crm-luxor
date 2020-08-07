@@ -185,42 +185,47 @@ class HomeController
 	function selesai()
 	{
 		$request = request()->post();
-		if(!isset($request->username))
+		if(!session()->get('id'))
 		{
-			// customer only
-			$kustomer = new Kustomer;
-			$id_kustomer = $kustomer->save([
-				'id_pengguna'	=> 0,
-				'nama' 			=> $request->nama,
-				'alamat' 		=> $request->alamat,
-				'jenis_kelamin' => $request->jenis_kelamin,
-				'email' 		=> $request->email,
-				'no_hp' 		=> $request->no_hp,
-			]);
+			if(!isset($request->username))
+			{
+				// customer only
+				$kustomer = new Kustomer;
+				$id_kustomer = $kustomer->save([
+					'id_pengguna'	=> 0,
+					'nama' 			=> $request->nama,
+					'alamat' 		=> $request->alamat,
+					'jenis_kelamin' => $request->jenis_kelamin,
+					'email' 		=> $request->email,
+					'no_hp' 		=> $request->no_hp,
+				]);
+			}
+			else
+			{
+				$user = new User;
+				$id_pengguna = $user->save([
+					'nama' => $request->nama,
+					'email' => $request->email,
+					'username' => $request->username,
+					'password' => md5($request->password),
+					'level'    => 'customer'
+				]);
+
+				session()->set('id',$id_pengguna);
+
+				$kustomer = new Kustomer;
+				$id_kustomer = $kustomer->save([
+					'id_pengguna' 	=> $id_pengguna,
+					'nama' 			=> $request->nama,
+					'alamat' 		=> $request->alamat,
+					'jenis_kelamin' => $request->jenis_kelamin,
+					'email' 		=> $request->email,
+					'no_hp' 		=> $request->no_hp,
+				]);
+			}
 		}
 		else
-		{
-			$user = new User;
-			$id_pengguna = $user->save([
-				'nama' => $request->nama,
-				'email' => $request->email,
-				'username' => $request->username,
-				'password' => md5($request->password),
-				'level'    => 'customer'
-			]);
-
-			session()->set('id',$id_pengguna);
-
-			$kustomer = new Kustomer;
-			$id_kustomer = $kustomer->save([
-				'id_pengguna' 	=> $id_pengguna,
-				'nama' 			=> $request->nama,
-				'alamat' 		=> $request->alamat,
-				'jenis_kelamin' => $request->jenis_kelamin,
-				'email' 		=> $request->email,
-				'no_hp' 		=> $request->no_hp,
-			]);
-		}
+			$id_kustomer = session()->user()->kustomer()->id;
 
 		$transaksi = new Transaksi;
 		$id_transaksi = $transaksi->save([

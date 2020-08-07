@@ -27,6 +27,7 @@ if(!empty($transaksi)):
                     $total_poin = 0;
 
                     $shipping = $transaksi->shipping($transaksi->id_kabupaten,$transaksi->kurir);
+                    $ongkir = $shipping->rajaongkir->results[0]->costs[0]->cost[0]->value;
                     foreach($transaksi->items as $key => $value):
                     	$value->produk(); 
                     	$harga = $member ? $value->produk->harga_member : $value->produk->harga_normal;
@@ -51,7 +52,7 @@ if(!empty($transaksi)):
                         	<?= $transaksi->kustomer->alamat ?>, <?= $shipping->city ?>, <?= $shipping->province ?>, <?= $shipping->name ?>
                         </td>
                         <td width="100px"></td>
-                        <td>Rp. <?= number_format($transaksi->ongkir) ?></td>
+                        <td>Rp. <?= number_format($ongkir) ?></td>
                     </tr>
                     <tr>
                     	<td></td>
@@ -59,7 +60,7 @@ if(!empty($transaksi)):
                     	<td></td>
                     	<td><b>Total</b></td>
                     	<td>
-                    		<b>Rp. <?=number_format($total+$transaksi->ongkir)?></b>
+                    		<b>Rp. <?=number_format($total+$ongkir)?></b>
                     	</td>
                     </tr>
                 </tbody>
