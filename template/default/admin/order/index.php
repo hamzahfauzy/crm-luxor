@@ -21,7 +21,7 @@ $this->js = [
                             <input type="date" name="from" id="from" value="<?= @$_GET['from']?>" class="form-control">&nbsp;
                             <input type="date" name="to" id="to" value="<?= @$_GET['to']?>" class="form-control">&nbsp;
                             <button class="btn btn-primary"><i class="fa fa-search"></i> Filter</button>&nbsp;
-                            <a href="#" class="btn btn-success" onclick="location='<?=base_url()?>/admin/order/laporan?from='+from.value+'&to='+to.value"><i class="fa fa-print"></i> Cetak</a>
+                            <a href="#" class="btn btn-success" onclick="location='<?=base_url()?>/admin/order/laporan/?from='+from.value+'&to='+to.value"><i class="fa fa-print"></i> Cetak</a>
                         </div>
                         </form>
                     </div>

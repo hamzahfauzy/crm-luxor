@@ -1,5 +1,5 @@
 <?php
-ini_set("display_errors",0);
+ini_set("display_errors",1);
 define("Z_MVC",1);
 set_time_limit(0);
 session_start();
@@ -36,7 +36,12 @@ require "system/libraries/Functions.php";
 $app = require "config/applications.php";
 
 $URI = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-$URI = $app['root_dir'] ? ltrim($URI,$app['root_dir'].'/') : $URI;
+$URI = parse_url($URI,PHP_URL_PATH);
+$_URI = explode("/", $URI);
+if($app['root_dir'] && $_URI[1] == $app['root_dir'])
+    unset($_URI[1]);
+$URI = implode("/", $_URI);
+// $URI = $app['root_dir'] ? ltrim($URI,$app['root_dir'].'/') : $URI;
 $URI = trim($URI,'/');
 $URI = empty($URI) ? '/' : $URI;
 // $URI = $app['root_dir'] && $URI == $app['root_dir'] ? '/' : $URI;
