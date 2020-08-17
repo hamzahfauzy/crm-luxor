@@ -68,6 +68,9 @@
         <li>
             <a href="<?= base_url()?>/home/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi</a>
         </li>
+        <li>
+            <a href="https://web.whatsapp.com/send?phone=6285358065441&text=Salam. Apakah saya bisa konsultasi ?" ><i class="fa fa-whatsapp"></i> Konsultasi WA</a>
+        </li>
     <?php endif ?>
     </ul>
 </div>
