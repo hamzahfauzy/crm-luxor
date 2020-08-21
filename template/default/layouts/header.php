@@ -65,11 +65,16 @@
         </li>
     <?php endif ?>
     <?php if(!session()->get('id') || (session()->get('id') && session()->user()->level == "customer")): ?>
-        <li>
-            <a href="<?= base_url()?>/home/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi</a>
-        </li>
-        <li>
-            <a href="https://web.whatsapp.com/send?phone=6285358065441&text=Salam. Apakah saya bisa konsultasi ?" ><i class="fa fa-whatsapp"></i> Konsultasi WA</a>
+        <li class="dropdown">
+            <a href="javascript:void(0)"><i class="fa fa-comment"></i> Konsultasi</a>
+            <ul>
+                <li>
+                    <a href="<?= base_url()?>/home/konsultasi" class="<?= $this->visited == 'konsultasi' ? 'active' : '' ?>"><i class="fa fa-comment"></i> Konsultasi Langsung</a>
+                </li>
+                <li>
+                    <a href="https://api.whatsapp.com/send?phone=6285358065441&text=Halo%0ASaya+ingin+konsultasi%0ANama+:%0AKeluhan" target="_blank"><i class="fa fa-whatsapp"></i> Konsultasi WA</a>
+                </li>
+            </ul>
         </li>
     <?php endif ?>
     </ul>

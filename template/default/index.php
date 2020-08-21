@@ -11,6 +11,19 @@
     <?php foreach($this->css as $css): ?>
     <link href="<?= $css ?>" type="text/css" rel="stylesheet"/>
     <?php endforeach; ?>
+    <style type="text/css">
+    li.dropdown ul {
+        display: none;
+    }
+    li.dropdown:hover > ul {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        background-color: #f6922d;
+        padding: 0;
+        margin:0;
+    }
+    </style>
 </head>
 <body>
     <div class="container" style="min-height: 100%">
