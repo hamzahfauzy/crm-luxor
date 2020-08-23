@@ -57,6 +57,7 @@ else
     $url = array_map(function($_url){
         return ucfirst($_url);
     }, $url);
+    $URI = implode('/', $url);
     if(count($url) ==  1) // just controller
     {
         $URI = str_replace('/','\\',$URI);
